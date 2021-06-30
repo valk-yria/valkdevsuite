@@ -1,6 +1,9 @@
 local pluginv = require(script.Parent.Parent.Parent.Library.Plugin)
 
 
+local Selection = game:GetService("Selection")
+
+
 local mainModule = 
 	{
 		-- text label
@@ -77,8 +80,26 @@ local mainModule =
 				{"TextSize", 23},
 				{"ZIndex", 3}
 			},
+			
+			-- "Select" 3
+			{
+				{"Name", "Select"},
 
-			-- "Waypoints" 3
+				{"AnchorPoint", Vector2.new(0.5, 0)},
+				{"BackgroundColor3", Color3.new(35/255, 35/255, 35/255)},
+				{"BorderSizePixel", 1},
+				{"BorderColor3", Color3.new(0/255, 0/255, 0/255)},
+				{"Font", Enum.Font.Code},
+				{"Position", UDim2.new(0.5, 0, 0.2, 0)},
+				{"Size", UDim2.new(0.75, 0, 0.06, 0)},
+				{"SizeConstraint", Enum.SizeConstraint.RelativeXY},
+				{"Text", "Select Objects"},
+				{"TextColor3", Color3.new(255/255, 255/255, 255/255)},
+				{"TextSize", 16},
+				{"ZIndex", 3}
+			},
+			
+			-- "Waypoints" 4
 			{
 				{"Name", "Waypoints"},
 
@@ -96,7 +117,7 @@ local mainModule =
 				{"ZIndex", 3}
 			},
 
-			-- "Initialize" 4
+			-- "Initialize" 5
 			{
 				{"Name", "Initialize"},
 
@@ -114,7 +135,7 @@ local mainModule =
 				{"ZIndex", 3}
 			},
 
-			-- "Lighting" 5
+			-- "Lighting" 6
 			{
 				{"Name", "Lighting"},
 
@@ -124,7 +145,7 @@ local mainModule =
 				{"BorderSizePixel", 1},
 				{"BorderColor3", Color3.new(0/255, 0/255, 0/255)},
 				{"Font", Enum.Font.Code},
-				{"Position", UDim2.new(0.5, 0, 0.86, 0)},
+				{"Position", UDim2.new(0.5, 0, 0.44, 0)},
 				{"Size", UDim2.new(0.75, 0, 0.06, 0)},
 				{"SizeConstraint", Enum.SizeConstraint.RelativeXY},
 				{"TextColor3", Color3.new(255/255, 255/255, 255/255)},
@@ -132,7 +153,7 @@ local mainModule =
 				{"ZIndex", 3}
 			},
 
-			-- "Settings" 6
+			-- "Settings" 7
 			{
 				{"Name", "Settings"},
 
@@ -178,26 +199,9 @@ local mainModule =
 	}
 
 
-mainModule.Parameters = 
-	{
-		SelectButton =
-		{ },
-		Waypoints =
-		{ },
-		Initialize =
-		{ },
-	}
-
-
 function mainModule:Back(whatToHide, whatToShow)
 	return function()
-		for a, b in pairs(whatToHide) do
-			b.Visible = false
-		end
-
-		for a, b in pairs(whatToShow) do
-			b.Visible = true
-		end
+		pluginv:ToggleElements(whatToHide, whatToShow)
 	end
 end
 
@@ -235,21 +239,48 @@ function mainModule:ScanMap()
 	end
 end
 
-function mainModule:SelectButton(a, b, c)
-	--pluginv:ShowPanelWithBackground(imageLabels[2], imageLabels[3], textButtons[1])
-	pluginv:ShowPanelWithBackground(a, b, c)
-end
-
-function mainModule:Waypoints(a, b, c)
-	--pluginv.ShowPanelWithBack(imageLabels[2], imageLabels[4], textButtons[1])
-	pluginv:ShowPanelWithBackground(a, b, c)
-end
-
-function mainModule:Initialize(t1, b)
-	for _, b in pairs(t1) do
-		local a = Instance.new(b)
-		a.Parent = b == true and game.Lighting or workspace.Camera
+function mainModule:Select(whatToHide, whatToShow)
+	return function()
+		pluginv:ToggleElements(whatToHide, whatToShow)
 	end
+end
+
+function mainModule:Waypoints(whatToHide, whatToShow)
+	return function()
+		pluginv:ToggleElements(whatToHide, whatToShow)
+	end
+end
+
+function mainModule:Initialize(t, bool)
+	return function()
+		local s = {}
+		local dir = bool == true and game.Lighting or workspace.Camera
+		
+		local folder = Instance.new("Folder")
+		folder.Name = "VDSLighting"
+		
+		for _, a in pairs(t) do
+			local inst = Instance.new(a)
+			inst.Parent = folder
+		end
+		
+		folder.Parent = dir
+		table.insert(s, #s + 1, folder)
+		
+		for _, a in pairs(dir.VDSLighting:GetDescendants()) do
+			table.insert(s, #s + 1, a)
+		end
+		
+		Selection:Set(s)
+	end
+end
+
+function mainModule:Lighting()
+	print("Lighting")
+end
+
+function mainModule:Settings()
+	print("Settings")
 end
 
 

@@ -2,6 +2,7 @@
 local PlayersService = game:GetService("Players")
 local StarterGuiService = game:GetService("StarterGui")
 local UserInputService = game:GetService("UserInputService")
+local SelectionService = game:GetService("Selection")
 
 
 -- vars
@@ -9,11 +10,7 @@ local localP = PlayersService.LocalPlayer
 local cam = workspace.CurrentCamera
 
 
---[[
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-]]--
+
 
 
 local pluginv = {}
@@ -82,15 +79,13 @@ function pluginv:ToggleButton(func, inst, color1, color2, bool)
 	
 end
 
-function pluginv:ShowPanel(o, p)
-	o.Visible = false
-	p.Visible = true
-end
-
-function pluginv:ShowPanelWithBackground(o, p, b)
-	o.Visible = false
-	p.Visible = true
-	b.Visible = true
+function pluginv:ToggleElements(whatToHide, whatToShow)
+	for a, b in pairs(whatToHide) do
+		b.Visible = false
+	end
+	for a, b in pairs(whatToShow) do
+		b.Visible = true
+	end
 end
 
 

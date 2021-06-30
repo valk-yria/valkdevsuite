@@ -14,7 +14,6 @@ local globalFolder = script.Parent.Parent
 local scriptFolder = globalFolder.Scripts
 local toolsFolder = globalFolder.Scripts.Tools
 local materialsFolder = globalFolder.Materials
-
 local valuesFolder = globalFolder.Values
 
 
@@ -32,8 +31,8 @@ local tools = { mainTool, lightingTool, selectTool, waypointTool }
 
 
 -- values
+local resources = require(materialsFolder.Resources)
 local assets = require(valuesFolder.Assets)
-
 
 
 -- vars
@@ -135,33 +134,35 @@ end
 do
 	if debugMode == true then
 		print(uiElements)
+		widget.Enabled = true
 	end
 end
 
 
--- sets up parameters and assigns functions
-local params =
-	{
-		-- param 1
-		{ { textButtons[1], imageLabels[2], imageLabels[3] }, { imageLabels[1] }, },
-		-- param 2
-		{  },
-	}
+-- assigns functions
+do
+	local funcs = 
+		{
+			mainTool:Back({textButtons[1], imageLabels[2], imageLabels[3]}, {imageLabels[1]}),
+			mainTool:ScanMap(),
+			mainTool:Select({imageLabels[1]}, {imageLabels[2], textButtons[1]}),
+			mainTool:Waypoints({imageLabels[1]}, {imageLabels[3], textButtons[1]}),
+			mainTool:Initialize(resources.lightingResources, true),
+		}
 
--- this works, but now we have to set up all functions or this fails
-for a, b in pairs(tools) do
-	for c, d in pairs(textButtons) do
-		b.Parameters[c] = params[c]
-		d.MouseButton1Click:Connect(b[d.Name])
+	for a, b in ipairs(funcs) do
+		textButtons[a].MouseButton1Click:Connect(b)
 	end
 end
 
 
 -- put this in a for loop later
 -- initializes the plugin, hiding what should not be seen
-textButtons[1].Visible = true
-imageLabels[2].Visible = false
-imageLabels[3].Visible = false
+do
+	textButtons[1].Visible = false
+	imageLabels[2].Visible = false
+	imageLabels[3].Visible = false
+end
 
 
 

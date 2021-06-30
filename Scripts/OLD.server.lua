@@ -5,26 +5,6 @@
 
 
 ---- declare functions
-
-
-
-
---local function InitializeButton()
---	local t = {}
---	local workspaceItems = resourcesFolder.Workspace
---	local lightingItems = resourcesFolder.Lighting
-	
---	local a = workspaceItems:Clone()
---	local b = lightingItems:Clone()
---	a.Parent = workspace
---	b.Parent = game.Lighting
---	table.insert(t, #t + 1, a)
---	table.insert(t, #t + 1, b)
-	
---	warn("Initialize complete, added the following. Click on them to highlight them in the Explorer.")
---	warn(t)
---end
-
 --local function SelectByProperties()
 --	local t = {}
 --	local p = {}
@@ -55,14 +35,6 @@
 
 
 ---- bind functions to events
---textButtons[1].MouseButton1Click:Connect(BackButton)
---textButtons[2].MouseButton1Click:Connect(WrappedScanMapButton)
---textButtons[3].MouseButton1Click:Connect(SelectButton)
---textButtons[4].MouseButton1Click:Connect(WaypointButton)
---textButtons[5].MouseButton1Click:Connect(WrappedInitializeButton)
---textButtons[8].MouseButton1Click:Connect(SelectByProperties)
---textButtons[9].MouseButton1Click:Connect(GetCurrentTransformButton)
-
 --local x, y, z = workspace.CurrentCamera.CFrame:ToEulerAnglesXYZ()
 --local a = Instance.new("Part")
 --a.Position = workspace.CurrentCamera.CFrame.Position
