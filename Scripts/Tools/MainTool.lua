@@ -180,66 +180,76 @@ local mainModule =
 
 mainModule.Parameters = 
 	{
+		SelectButton =
 		{ },
+		Waypoints =
 		{ },
-		{ },
+		Initialize =
 		{ },
 	}
 
 
-function mainModule:Back()
-	local hide, show = unpack(mainModule.Parameters[1])
-	for a, b in pairs(hide) do
-		b.Visible = false
-	end
-	
-	for a, b in pairs(show) do
-		b.Visible = true
+function mainModule:Back(whatToHide, whatToShow)
+	return function()
+		for a, b in pairs(whatToHide) do
+			b.Visible = false
+		end
+
+		for a, b in pairs(whatToShow) do
+			b.Visible = true
+		end
 	end
 end
 
 function mainModule:ScanMap()
-	local partNames = 
-		{
-			"Part", "UnionOperation", "MeshPart", "Decal", "Texture",
-			"SpotLight", "SurfaceLight", "PointLight", "Smoke", "Fire", "Sparkles", "ParticleEmitter",
-			"Seat", "VehicleSeat", "SpawnLocation",
-			--{},
-			--{}
-		}
-	local allParts = 
-		{
-			0, 0, 0, 0, 0, 
-			0, 0, 0, 0, 0, 0, 0,
-			0, 0, 0,
-		}
+	return function()
+		local partNames = 
+			{
+				"Part", "UnionOperation", "MeshPart", "Decal", "Texture",
+				"SpotLight", "SurfaceLight", "PointLight", "Smoke", "Fire", "Sparkles", "ParticleEmitter",
+				"Seat", "VehicleSeat", "SpawnLocation",
+				--{},
+				--{}
+			}
+		local allParts = 
+			{
+				0, 0, 0, 0, 0, 
+				0, 0, 0, 0, 0, 0, 0,
+				0, 0, 0,
+			}
 
-	warn("====   BEGIN SCAN")
-	print("Total Instances: " .. #workspace:GetDescendants())
-	for _, v in pairs(workspace:GetDescendants()) do
-		for a, _ in ipairs(partNames) do
-			if v.ClassName == partNames[a] then
-				allParts[a] += 1
+		warn("====   BEGIN SCAN")
+		print("Total Instances: " .. #workspace:GetDescendants())
+		for _, v in pairs(workspace:GetDescendants()) do
+			for a, _ in ipairs(partNames) do
+				if v.ClassName == partNames[a] then
+					allParts[a] += 1
+				end
 			end
 		end
-	end
 
-	for c, _ in ipairs(partNames) do
-		print(partNames[c] .. "(s): " .. allParts[c])
+		for c, _ in ipairs(partNames) do
+			print(partNames[c] .. "(s): " .. allParts[c])
+		end
+		warn("====   END SCAN")
 	end
-	warn("====   END SCAN")
 end
 
-function mainModule:SelectButton()
-	local a, b, c = unpack(mainModule.Parameters[3])
+function mainModule:SelectButton(a, b, c)
 	--pluginv:ShowPanelWithBackground(imageLabels[2], imageLabels[3], textButtons[1])
 	pluginv:ShowPanelWithBackground(a, b, c)
 end
 
-function mainModule:Waypoints()
-	local a, b, c = unpack(mainModule.Parameters[4])
+function mainModule:Waypoints(a, b, c)
 	--pluginv.ShowPanelWithBack(imageLabels[2], imageLabels[4], textButtons[1])
 	pluginv:ShowPanelWithBackground(a, b, c)
+end
+
+function mainModule:Initialize(t1, b)
+	for _, b in pairs(t1) do
+		local a = Instance.new(b)
+		a.Parent = b == true and game.Lighting or workspace.Camera
+	end
 end
 
 

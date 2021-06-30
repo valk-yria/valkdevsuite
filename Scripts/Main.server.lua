@@ -13,7 +13,7 @@ local globalFolder = script.Parent.Parent
 
 local scriptFolder = globalFolder.Scripts
 local toolsFolder = globalFolder.Scripts.Tools
-local resourcesFolder = globalFolder.Resources
+local materialsFolder = globalFolder.Materials
 
 local valuesFolder = globalFolder.Values
 
@@ -32,10 +32,8 @@ local tools = { mainTool, lightingTool, selectTool, waypointTool }
 
 
 -- values
-local studioTheme = valuesFolder.StudioTheme
-local enabledColor3 = valuesFolder.EnabledColor3
-local disabledColor3 = valuesFolder.DisabledColor3
-local pluginButtonImage = valuesFolder.PluginButtonImage
+local assets = require(valuesFolder.Assets)
+
 
 
 -- vars
@@ -48,7 +46,7 @@ local enable = false
 
 -- set up plugin toolbar and widget
 local toolbar = plugin:CreateToolbar("Valkyria's Dev Suite")
-local widgetButton = toolbar:CreateButton("Map Tools", "Activates toolbar that assists in map development, etc.", pluginButtonImage.Value)
+local widgetButton = toolbar:CreateButton("Map Tools", "Activates toolbar that assists in map development, etc.", assets.pluginButtonImage)
 
 local widgetInfo = DockWidgetPluginGuiInfo.new(Enum.InitialDockState.Right, false, true, 1500, 150, 280, 310)
 local widget = plugin:CreateDockWidgetPluginGui("Valkyria Suite", widgetInfo)
@@ -171,7 +169,7 @@ imageLabels[3].Visible = false
 do
 	local function ChangeColor()
 		local themeCheck = settings().Studio.Theme.Name == "Dark" and Color3.new(46/255, 46/255, 46/255) or Color3.new(255/255, 255/255, 255/255)
-		studioTheme.Value = themeCheck
+		assets.studioTheme = themeCheck
 	end
 
 	ChangeColor()
