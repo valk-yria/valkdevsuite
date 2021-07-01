@@ -32,11 +32,3 @@
 
 --local WrappedScanMapButton = pluginv.DisableButton(ScanMapButton, textButtons[2], disabledColor3.Value, "Cooldown")
 --local WrappedInitializeButton = pluginv.DoubleConfirm(InitializeButton, textButtons[3], 3, "Request timed out.", "Click again to confirm initializing the map. Expires in 3 seconds.", "Initializing...")
-
-
----- bind functions to events
---local x, y, z = workspace.CurrentCamera.CFrame:ToEulerAnglesXYZ()
---local a = Instance.new("Part")
---a.Position = workspace.CurrentCamera.CFrame.Position
---a.Rotation = Vector3.new(math.deg(x), math.deg(y), math.deg(z))
---a.Parent = workspace

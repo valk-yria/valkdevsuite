@@ -33,6 +33,7 @@ local tools = { mainTool, lightingTool, selectTool, waypointTool }
 -- values
 local resources = require(materialsFolder.Resources)
 local assets = require(valuesFolder.Assets)
+local waypoints = require(valuesFolder.Waypoints)
 
 
 -- vars
@@ -51,7 +52,6 @@ local widgetInfo = DockWidgetPluginGuiInfo.new(Enum.InitialDockState.Right, fals
 local widget = plugin:CreateDockWidgetPluginGui("Valkyria Suite", widgetInfo)
 widget.Title = "Map Tools"
 
-
 -- properly handle plugin/widget closing
 do
 	widgetButton.Click:Connect(function()
@@ -69,7 +69,7 @@ do
 end
 
 
--- generates ui elements and sets their parents
+-- generates ui elements
 local uiElements = {{}, {}, {}, {}, {}}
 
 local textLabels = uiElements[1]
@@ -99,33 +99,25 @@ do
 	end
 end
 
-local parents = 
-	{
-		imageLabels[1], imageLabels[2], imageLabels[3]
-	}
 
-local children = 
-	{
-		-- MainMenu
-		{
-			textLabels[1], textButtons[2], textButtons[3], textButtons[4], textButtons[5], textButtons[6], textButtons[7]
-		},
-
-		-- SelectMenu
-		{
-			textLabels[2], textLabels[3], textLabels[4], textButtons[8], textButtons[9], textBoxes[1], textBoxes[2], textBoxes[3]
-		},
-
-		-- WaypointMenu
-		{
-			textLabels[5], textButtons[10], textButtons[11], textBoxes[4], textBoxes[5]
+-- sets their parents
+do
+	local parents = 
+		{ 
+			imageLabels[1], imageLabels[2], imageLabels[3], imageLabels[4] 
 		}
-	}
+	local children = 
+		{
+			{ textLabels[1], textButtons[2], textButtons[3], textButtons[4], textButtons[5], textButtons[6], textButtons[7], },
+			{  },
+			{ textLabels[2], textLabels[3], textLabels[4], textButtons[8], textButtons[9], textBoxes[1], textBoxes[2], textBoxes[3], },
+			{ textLabels[5], textLabels[6], textButtons[10], textButtons[11], textBoxes[4], textBoxes[5], textBoxes[6], textBoxes[7], textBoxes[8], textBoxes[9] },
+		}
 
-
-for a, _ in ipairs(parents) do
-	for _, b in ipairs(children[a]) do
-		b.Parent = parents[a]
+	for a, b in pairs(parents) do
+		for c, d in pairs(children[a]) do
+			d.Parent = b
+		end
 	end
 end
 
@@ -143,16 +135,27 @@ end
 do
 	local funcs = 
 		{
-			mainTool:Back({textButtons[1], imageLabels[2], imageLabels[3]}, {imageLabels[1]}),
-			mainTool:ScanMap(),
-			mainTool:Select({imageLabels[1]}, {imageLabels[2], textButtons[1]}),
-			mainTool:Waypoints({imageLabels[1]}, {imageLabels[3], textButtons[1]}),
-			mainTool:Initialize(resources.lightingResources, true),
+			{
+				mainTool:Back({textButtons[1], imageLabels[2], imageLabels[3], imageLabels[4]}, {imageLabels[1]}),
+				mainTool:ScanMap(),
+				mainTool:Select({imageLabels[1]}, {imageLabels[3], textButtons[1]}),
+				mainTool:Waypoints({imageLabels[1]}, {imageLabels[4], textButtons[1]}),
+				mainTool:Lighting(),
+				mainTool:Initialize(resources.lightingResources, true),
+				mainTool:Settings(),
+			},
+			{
+				waypointTool:GetCurrentTransform(textBoxes[4], textBoxes[5], textBoxes[6], textBoxes[7], textBoxes[8], textBoxes[9]),
+				waypointTool:SaveTransform(textBoxes[4], textBoxes[5], textBoxes[6], textBoxes[7], textBoxes[8], textBoxes[9], waypoints),
+			}
 		}
-
-	for a, b in ipairs(funcs) do
+	
+	for a, b in pairs(funcs[1]) do
 		textButtons[a].MouseButton1Click:Connect(b)
 	end
+	
+	textButtons[10].MouseButton1Click:Connect(funcs[2][1])
+	textButtons[11].MouseButton1Click:Connect(funcs[2][2])
 end
 
 
@@ -162,8 +165,8 @@ do
 	textButtons[1].Visible = false
 	imageLabels[2].Visible = false
 	imageLabels[3].Visible = false
+	imageLabels[4].Visible = false
 end
-
 
 
 -- handles dark mode

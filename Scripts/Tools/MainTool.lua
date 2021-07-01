@@ -6,7 +6,6 @@ local Selection = game:GetService("Selection")
 
 local mainModule = 
 	{
-		-- text label
 		{
 			-- "Version" 1
 			{
@@ -27,7 +26,6 @@ local mainModule =
 			},
 		},
 
-		-- image label
 		{
 			-- "MainMenu" 1
 			{
@@ -43,7 +41,6 @@ local mainModule =
 			},
 		},
 
-		-- text button
 		{
 			-- "Back" 1
 			{
@@ -117,11 +114,11 @@ local mainModule =
 				{"ZIndex", 3}
 			},
 
-			-- "Initialize" 5
+			-- "Lighting" 5
 			{
-				{"Name", "Initialize"},
+				{"Name", "Lighting"},
 
-				{"Text", "Initialize Map"},
+				{"Text", "Lighting"},
 				{"AnchorPoint", Vector2.new(0.5, 0)},
 				{"BackgroundColor3", Color3.new(35/255, 35/255, 35/255)},
 				{"BorderSizePixel", 1},
@@ -135,11 +132,11 @@ local mainModule =
 				{"ZIndex", 3}
 			},
 
-			-- "Lighting" 6
+			-- "Initialize" 6
 			{
-				{"Name", "Lighting"},
+				{"Name", "Initialize"},
 
-				{"Text", "Lighting"},
+				{"Text", "Initialize Map"},
 				{"AnchorPoint", Vector2.new(0.5, 0)},
 				{"BackgroundColor3", Color3.new(35/255, 35/255, 35/255)},
 				{"BorderSizePixel", 1},
@@ -172,7 +169,6 @@ local mainModule =
 			},
 		},
 
-		-- image button
 		{
 			-- "Settings" 1
 			--{
@@ -193,7 +189,6 @@ local mainModule =
 			--}
 		},
 
-		-- text box
 		{
 		},
 	}
@@ -204,7 +199,6 @@ function mainModule:Back(whatToHide, whatToShow)
 		pluginv:ToggleElements(whatToHide, whatToShow)
 	end
 end
-
 function mainModule:ScanMap()
 	return function()
 		local partNames = 
@@ -238,19 +232,16 @@ function mainModule:ScanMap()
 		warn("====   END SCAN")
 	end
 end
-
 function mainModule:Select(whatToHide, whatToShow)
 	return function()
 		pluginv:ToggleElements(whatToHide, whatToShow)
 	end
 end
-
 function mainModule:Waypoints(whatToHide, whatToShow)
 	return function()
 		pluginv:ToggleElements(whatToHide, whatToShow)
 	end
 end
-
 function mainModule:Initialize(t, bool)
 	return function()
 		local s = {}
@@ -267,20 +258,18 @@ function mainModule:Initialize(t, bool)
 		folder.Parent = dir
 		table.insert(s, #s + 1, folder)
 		
-		for _, a in pairs(dir.VDSLighting:GetDescendants()) do
-			table.insert(s, #s + 1, a)
-		end
-		
 		Selection:Set(s)
 	end
 end
-
 function mainModule:Lighting()
-	print("Lighting")
+	return function()
+		print("Lighting")
+	end
 end
-
 function mainModule:Settings()
-	print("Settings")
+	return function()
+		print("Settings")
+	end
 end
 
 
