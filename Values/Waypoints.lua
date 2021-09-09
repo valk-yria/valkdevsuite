@@ -1,10 +1,5 @@
 local waypoints = {}
 
-
-waypoints.Saved =
-	{
-		
-	}
-
+waypoints.Saved = {}
 
 return waypoints

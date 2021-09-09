@@ -1,10 +1,12 @@
 # This document guides you on how to import the entirety of the plugin directly into your Roblox place.
 
 ## Step 1: Open up a new Roblox place.
-Any place is fine. 
+
+Any place is fine.
 However, if you do want to modify the plugin, I recommend doing so in a new Roblox place.
 
 ## Step 2: In the command bar, run the code below:
+
 ```lua
 -- literally wrote this whole piece of code on github, so no intellisense lmaoooo
 local InsertService = game:GetService("InsertService")
@@ -31,4 +33,5 @@ end
 ```
 
 ## Step 3: Open up the model.
+
 Roblox should automatically highlight the plugin model for you in the Explorer. You can open it up from there, and maybe have a good belly laugh at my horrible code.
