@@ -19,13 +19,11 @@ local dir = game.ServerStorage
 do
    local success, model = pcall(InsertService.LoadAsset, InsertService, 6988231623)
    if success and model then
-      -- why do i need a table to pass into SelectionService:Set(), so stupid
-      local e = {}
-      print("Model loaded successfully")
       model.Name = name
       model.Parent = dir
-      table.insert(e, #e + 1, dir:WaitForChild(name))
-      SelectionService:Set(e)
+      SelectionService:Set({dir:WaitForChild(name)})
+      
+      print("Model loaded successfully")
    else
       warn("Model failed to load!")
    end
